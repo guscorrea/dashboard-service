@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Taming Thymeleaf</title>
+</head>
+<body>
+<h1 th:text="${pageTitle}"></h1>
+<div>
+    <ul>
+        <li th:each="well : ${wells}">
+            <span th:text="${well}"></span>
+        </li>
+    </ul>
+</div>
+</body>
+</html>
