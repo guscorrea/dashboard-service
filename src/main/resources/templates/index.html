@@ -4,14 +4,15 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Taming Thymeleaf</title>
+    <title>Well Dashboard</title>
 </head>
 <body>
 <h1 th:text="${pageTitle}"></h1>
 <div>
-    <ul>
+    <span th:if="${wells.empty}">There are no registered wells</span>
+    <ul th:unless="${wells.empty}">
         <li th:each="well : ${wells}">
-            <span th:text="${well}"></span>
+            <span th:text="${well.name}"></span>
         </li>
     </ul>
 </div>
