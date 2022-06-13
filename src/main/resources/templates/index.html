@@ -5,16 +5,37 @@
 <head>
     <meta charset="UTF-8">
     <title>Well Dashboard</title>
+    <link href="https://cdn.datatables.net/v/bs4/dt-1.10.25/datatables.min.css"
+          rel="stylesheet"
+          type="text/css"/>
+    <link crossorigin="anonymous"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+          integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+          rel="stylesheet"/>
 </head>
 <body>
-<h1 th:text="${pageTitle}"></h1>
-<div>
+<div class="container">
+    <h1>Digital Twin - Virtual Well Dashboard</h1>
+    <hr/>
+    <a th:href="@{/add-well-form}" class="btn btn-primary">Create Well</a>
+    <br/><br/>
     <span th:if="${wells.empty}">There are no registered wells</span>
-    <ul th:unless="${wells.empty}">
-        <li th:each="well : ${wells}">
-            <span th:text="${well.name}"></span>
-        </li>
-    </ul>
+    <table class="table table-bordered table-striped" th:unless="${wells.empty}">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Info</th>
+            <th>Creation Date</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="well : ${wells}">
+            <td th:text="${well.name}"></td>
+            <td th:text="${well.wellInfo}"></td>
+            <td th:text="${well.creationDateTime}"></td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 </body>
 </html>

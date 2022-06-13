@@ -31,8 +31,6 @@ public class RootController {
 		catch (RestClientException e) {
 			wellList = new ArrayList<>();
 		}
-
-		model.addAttribute("pageTitle", "Digital Twin - Virtual Well Dashboard");
 		model.addAttribute("wells", wellList);
 		return "index";
 	}
