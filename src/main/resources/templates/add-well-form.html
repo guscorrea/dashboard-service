@@ -15,9 +15,9 @@
     <h3>Create a new Well</h3>
     <hr/>
 
-    <form method="POST" th:action="@{/save-well}" th:object="${well}">
+    <form method="POST" th:action="@{/save-well}" th:object="${wellRequest}">
 
-        <input class="form-control col-4 mb-4" placeholder="Enter Name" th:field="*{name}" type="text"/>
+        <input required class="form-control col-4 mb-4" placeholder="Enter Name" th:field="*{name}" type="text"/>
 
         <input class="form-control col-4 mb-4" placeholder="Enter additional info" th:field="*{wellInfo}" type="text"/>
 

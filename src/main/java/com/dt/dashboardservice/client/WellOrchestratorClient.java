@@ -13,11 +13,12 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import com.dt.dashboardservice.model.Well;
+import com.dt.dashboardservice.model.WellRequest;
 
 @Component
 public class WellOrchestratorClient {
 
-	private static final String GET_DOCUMENT_ENDPOINT = "/well-orchestrator/well";
+	private static final String WELL_PATH = "/well-orchestrator/well";
 
 	private final String serviceRootUrl;
 
@@ -29,9 +30,15 @@ public class WellOrchestratorClient {
 	}
 
 	public List<Well> getAllWells() {
-		String uri = serviceRootUrl + GET_DOCUMENT_ENDPOINT;
+		String uri = serviceRootUrl + WELL_PATH;
 		ResponseEntity<Well[]> response = restTemplate.exchange(uri, HttpMethod.GET, createHeaders(), Well[].class);
 		return Arrays.asList(response.getBody());
+	}
+
+	public Well postWell(WellRequest wellRequest) {
+		String uri = serviceRootUrl + WELL_PATH;
+		ResponseEntity<Well> response = restTemplate.postForEntity(uri, wellRequest, Well.class);
+		return response.getBody();
 	}
 
 	private HttpEntity<String> createHeaders() {
