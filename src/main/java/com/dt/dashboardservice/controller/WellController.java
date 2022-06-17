@@ -48,4 +48,10 @@ public class WellController {
 		return modelAndView;
 	}
 
+	@GetMapping("/delete-well")
+	public String deleteWell(@RequestParam UUID wellId) {
+		wellOrchestratorClient.deleteWell(wellId);
+		return "redirect:/";
+	}
+
 }

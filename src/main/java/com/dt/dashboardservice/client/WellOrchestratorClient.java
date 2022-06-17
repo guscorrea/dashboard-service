@@ -32,14 +32,12 @@ public class WellOrchestratorClient {
 	}
 
 	public List<Well> getAllWells() {
-		String uri = serviceRootUrl + WELL_PATH;
-		ResponseEntity<Well[]> response = restTemplate.exchange(uri, HttpMethod.GET, createHeaders(), Well[].class);
+		ResponseEntity<Well[]> response = restTemplate.exchange(serviceRootUrl + WELL_PATH, HttpMethod.GET, createHeaders(), Well[].class);
 		return Arrays.asList(response.getBody());
 	}
 
 	public Well postWell(WellRequest wellRequest) {
-		String uri = serviceRootUrl + WELL_PATH;
-		ResponseEntity<Well> response = restTemplate.postForEntity(uri, wellRequest, Well.class);
+		ResponseEntity<Well> response = restTemplate.postForEntity(serviceRootUrl + WELL_PATH, wellRequest, Well.class);
 		return response.getBody();
 	}
 
@@ -49,10 +47,15 @@ public class WellOrchestratorClient {
 		restTemplate.put(uri, wellRequest);
 	}
 
+	public void deleteWell(UUID wellId) {
+		String pathVariable = "/" + wellId.toString();
+		String uri = UriComponentsBuilder.fromHttpUrl(serviceRootUrl + WELL_PATH).path(pathVariable).toUriString();
+		restTemplate.delete(uri);
+	}
+
 	private HttpEntity<String> createHeaders() {
 		HttpHeaders headers = new HttpHeaders();
 		headers.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
 		return new HttpEntity<>(headers);
 	}
-
 }

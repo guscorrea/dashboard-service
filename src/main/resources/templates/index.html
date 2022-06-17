@@ -20,7 +20,7 @@
     <a class="btn btn-primary" th:href="@{/add-well-form}">Create Well</a>
     <br/><br/>
     <span th:if="${wells.empty}">There are no registered wells</span>
-    <table class="table table-bordered table-striped" th:unless="${wells.empty}">
+    <table class="table table-bordered table-striped" id="wellTable" th:unless="${wells.empty}">
         <thead>
         <tr>
             <th>Name</th>
@@ -35,11 +35,25 @@
             <td th:text="${well.wellInfo}"></td>
             <td th:text="${well.creationDateTime}"></td>
             <td>
-                <a th:href="@{/show-update-form(wellId=${well.wellId})}" class="btn btn-info">Update</a>
+                <a class="btn btn-info" th:href="@{/show-update-form(wellId=${well.wellId})}">Update</a>
+                <a class="btn btn-danger ml-2" th:href="@{/delete-well(wellId=${well.wellId})}">Delete</a>
             </td>
         </tr>
         </tbody>
     </table>
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/v/bs4/dt-1.10.25/datatables.min.js" type="text/javascript"></script>
+<script>
+			$(document).ready(function() {
+				$("#wellTable").DataTable({
+						'aoColumnDefs': [{
+        				'bSortable': false,
+        				'aTargets': [-1] /* 1st one, start by the right */
+    				}]
+				});
+			})
+
+</script>
 </body>
 </html>
