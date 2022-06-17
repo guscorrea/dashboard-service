@@ -17,7 +17,7 @@
 <div class="container">
     <h1>Digital Twin - Virtual Well Dashboard</h1>
     <hr/>
-    <a th:href="@{/add-well-form}" class="btn btn-primary">Create Well</a>
+    <a class="btn btn-primary" th:href="@{/add-well-form}">Create Well</a>
     <br/><br/>
     <span th:if="${wells.empty}">There are no registered wells</span>
     <table class="table table-bordered table-striped" th:unless="${wells.empty}">
@@ -26,6 +26,7 @@
             <th>Name</th>
             <th>Info</th>
             <th>Creation Date</th>
+            <th>Actions</th>
         </tr>
         </thead>
         <tbody>
@@ -33,6 +34,9 @@
             <td th:text="${well.name}"></td>
             <td th:text="${well.wellInfo}"></td>
             <td th:text="${well.creationDateTime}"></td>
+            <td>
+                <a th:href="@{/show-update-form(wellId=${well.wellId})}" class="btn btn-info">Update</a>
+            </td>
         </tr>
         </tbody>
     </table>

@@ -2,6 +2,7 @@ package com.dt.dashboardservice.client;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -11,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.dt.dashboardservice.model.Well;
 import com.dt.dashboardservice.model.WellRequest;
@@ -39,6 +41,12 @@ public class WellOrchestratorClient {
 		String uri = serviceRootUrl + WELL_PATH;
 		ResponseEntity<Well> response = restTemplate.postForEntity(uri, wellRequest, Well.class);
 		return response.getBody();
+	}
+
+	public void putWell(WellRequest wellRequest, UUID wellId) {
+		String pathVariable = "/" + wellId.toString();
+		String uri = UriComponentsBuilder.fromHttpUrl(serviceRootUrl + WELL_PATH).path(pathVariable).toUriString();
+		restTemplate.put(uri, wellRequest);
 	}
 
 	private HttpEntity<String> createHeaders() {
