@@ -1,4 +1,4 @@
-package com.dt.dashboardservice.model;
+package com.dt.dashboardservice.model.well;
 
 import javax.validation.constraints.NotBlank;
 

@@ -1,4 +1,4 @@
-package com.dt.dashboardservice.model;
+package com.dt.dashboardservice.model.chokevalve;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -10,13 +10,13 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Well {
+public class ChokeValve {
 
-	private UUID wellId;
+	private UUID chokeValveId;
 
 	private String name;
 
-	private String wellInfo;
+	private String valveInfo;
 
 	private LocalDateTime creationDateTime;
 

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.dt.dashboardservice.client.WellOrchestratorClient;
-import com.dt.dashboardservice.model.WellRequest;
+import com.dt.dashboardservice.model.well.WellRequest;
 
 @Controller
 public class WellController {
@@ -34,7 +34,7 @@ public class WellController {
 	}
 
 	@PostMapping("/update-well")
-	public String saveWell(@ModelAttribute WellRequest wellRequest, @RequestParam UUID wellId) {
+	public String updateWell(@ModelAttribute WellRequest wellRequest, @RequestParam UUID wellId) {
 		//TODO handle this request
 		wellOrchestratorClient.putWell(wellRequest, wellId);
 		return "redirect:/";
