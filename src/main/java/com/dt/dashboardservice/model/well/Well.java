@@ -1,6 +1,7 @@
 package com.dt.dashboardservice.model.well;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 import java.util.UUID;
 
 import lombok.AllArgsConstructor;
@@ -17,6 +18,8 @@ public class Well {
 	private String name;
 
 	private String wellInfo;
+
+	private Map<UUID, ComponentType> components;
 
 	private LocalDateTime creationDateTime;
 

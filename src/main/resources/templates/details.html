@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Well Dashboard</title>
+    <link href="https://cdn.datatables.net/v/bs4/dt-1.10.25/datatables.min.css"
+          rel="stylesheet"
+          type="text/css"/>
+    <link crossorigin="anonymous"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+          integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+          rel="stylesheet"/>
+</head>
+<body>
+<div class="container">
+    <h2 th:text="|Details for well: ${well.name}|"></h2>
+    <hr/>
+    <div class="card">
+        <div class="card-header">General information</div>
+        <div class="card-body">
+            <h5 class="card-title" th:text="|ID: ${well.wellId}|"></h5>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><b>Name: </b><span th:text="${well.name}"></span></li>
+                <li class="list-group-item"><b>Well Info: </b><span th:text="${well.wellInfo}"></span></li>
+                <li class="list-group-item"><b>Creation Date: </b><span th:text="${well.creationDateTime}"></span></li>
+            </ul>
+            <a class="btn btn-primary" href="#">Add component</a>
+        </div>
+    </div>
+    <br/><br/>
+    <h2>Components</h2>
+    <hr/>
+    <h5 th:unless="${well.components != null}">There are no components</h5>
+    <table class="table table-bordered table-striped" id="componentsTable" th:if="${well.components != null}">
+        <thead>
+        <tr>
+            <th>System ID</th>
+            <th>Type</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="componentMap : ${well.components}">
+            <td th:text="${componentMap.key}"></td>
+            <td th:text="${componentMap.value}"></td>
+            <td>
+                <a class="btn btn-danger ml-2"
+                   th:href="@{/remove-component(componentId=${componentMap.key}, wellId=${well.wellId})}">Remove</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <hr/>
+    <a th:href="@{/}">Back to dashboard</a>
+</div>
+</body>
+</html>
