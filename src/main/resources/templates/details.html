@@ -26,7 +26,7 @@
                 <li class="list-group-item"><b>Well Info: </b><span th:text="${well.wellInfo}"></span></li>
                 <li class="list-group-item"><b>Creation Date: </b><span th:text="${well.creationDateTime}"></span></li>
             </ul>
-            <a class="btn btn-primary" href="#">Add component</a>
+            <a class="btn btn-primary" th:href="@{/add-component-form(wellId=${well.wellId})}">Add component</a>
         </div>
     </div>
     <br/><br/>
@@ -48,6 +48,7 @@
             <td>
                 <a class="btn btn-danger ml-2"
                    th:href="@{/remove-component(componentId=${componentMap.key}, wellId=${well.wellId})}">Remove</a>
+                <a class="btn btn-info ml-2">Check Component Readings</a>
             </td>
         </tr>
         </tbody>

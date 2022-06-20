@@ -1,16 +1,22 @@
 package com.dt.dashboardservice.controller;
 
+import java.util.Arrays;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.dt.dashboardservice.client.ChokeValveClient;
 import com.dt.dashboardservice.client.ComponentClient;
 import com.dt.dashboardservice.client.WellOrchestratorClient;
+import com.dt.dashboardservice.model.well.ComponentRequest;
+import com.dt.dashboardservice.model.well.ComponentType;
 import com.dt.dashboardservice.model.well.Well;
 
 @Controller
@@ -18,11 +24,14 @@ public class DetailsController {
 
 	private final WellOrchestratorClient wellOrchestratorClient;
 
+	private final ChokeValveClient chokeValveClient;
+
 	private final ComponentClient componentClient;
 
 	@Autowired
-	public DetailsController(WellOrchestratorClient wellOrchestratorClient, ComponentClient componentClient) {
+	public DetailsController(WellOrchestratorClient wellOrchestratorClient, ChokeValveClient chokeValveClient, ComponentClient componentClient) {
 		this.wellOrchestratorClient = wellOrchestratorClient;
+		this.chokeValveClient = chokeValveClient;
 		this.componentClient = componentClient;
 	}
 
@@ -32,6 +41,24 @@ public class DetailsController {
 		Well well = wellOrchestratorClient.getWell(wellId);
 		modelAndView.addObject("well", well);
 		return modelAndView;
+	}
+
+	@GetMapping("/add-component-form")
+	public ModelAndView addComponentForm(@RequestParam UUID wellId) {
+		ModelAndView modelAndView = new ModelAndView("add-component-form");
+		modelAndView.addObject("chokeValveOptions", chokeValveClient.getAllChokeValves());
+		modelAndView.addObject("availableComponents", Arrays.asList(ComponentType.values()));
+		modelAndView.addObject("componentRequest", new ComponentRequest());
+		modelAndView.addObject("id", wellId);
+		return modelAndView;
+	}
+
+	@PostMapping("/add-component")
+	public String updateWell(@ModelAttribute ComponentRequest componentRequest, @RequestParam UUID wellId, RedirectAttributes redirectAttributes) {
+		//TODO handle this request
+		redirectAttributes.addAttribute("wellId", wellId);
+		componentClient.addComponent(wellId, componentRequest);
+		return "redirect:/details";
 	}
 
 	@GetMapping("/remove-component")
