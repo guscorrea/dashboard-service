@@ -17,7 +17,7 @@
     <form method="POST" th:action="@{/add-component(wellId=${id})}">
 
         <div th:each="componentType : ${availableComponents}">
-            <input th:field="*{componentRequest.type}" th:value="${componentType}"
+            <input required th:field="*{componentRequest.type}" th:value="${componentType}"
                    type="radio"/><label
                 th:text="| ${componentType}|"></label>
         </div>

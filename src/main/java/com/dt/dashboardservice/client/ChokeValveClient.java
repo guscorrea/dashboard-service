@@ -18,6 +18,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.dt.dashboardservice.model.chokevalve.ChokeValve;
 import com.dt.dashboardservice.model.chokevalve.ChokeValveRequest;
+import com.dt.dashboardservice.model.chokevalve.Pressure;
+import com.dt.dashboardservice.model.chokevalve.Temperature;
 
 @Component
 public class ChokeValveClient {
@@ -59,6 +61,20 @@ public class ChokeValveClient {
 		String pathVariable = "/" + chokeValveId.toString();
 		String uri = UriComponentsBuilder.fromHttpUrl(serviceRootUrl + CHOKE_VALVE_PATH).path(pathVariable).toUriString();
 		restTemplate.delete(uri);
+	}
+
+	public List<Pressure> getAllPressuresById(UUID componentId) {
+		String pathVariable = "/pressure/" + componentId.toString();
+		ResponseEntity<Pressure[]> response = restTemplate.exchange(serviceRootUrl + pathVariable, HttpMethod.GET, createHeaders(),
+				Pressure[].class);
+		return Arrays.asList(response.getBody());
+	}
+
+	public List<Temperature> getAllTemperaturesById(UUID componentId) {
+		String pathVariable = "/temperature/" + componentId.toString();
+		ResponseEntity<Temperature[]> response = restTemplate.exchange(serviceRootUrl + pathVariable, HttpMethod.GET, createHeaders(),
+				Temperature[].class);
+		return Arrays.asList(response.getBody());
 	}
 
 	private HttpEntity<String> createHeaders() {

@@ -48,7 +48,8 @@
             <td>
                 <a class="btn btn-danger ml-2"
                    th:href="@{/remove-component(componentId=${componentMap.key}, wellId=${well.wellId})}">Remove</a>
-                <a class="btn btn-info ml-2">Check Component Readings</a>
+                <a class="btn btn-info ml-2" th:href="@{/show-readings(componentId=${componentMap.key})}">Check
+                    Component Readings</a>
             </td>
         </tr>
         </tbody>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Well Dashboard</title>
+    <link href="https://cdn.datatables.net/v/bs4/dt-1.10.25/datatables.min.css"
+          rel="stylesheet"
+          type="text/css"/>
+    <link crossorigin="anonymous"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+          integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+          rel="stylesheet"/>
+</head>
+<body>
+<div class="container">
+    <h2 th:text="|Readings for component: ${component}|"></h2>
+    <hr/>
+    <form th:action="@{/date-filter(componentId=${component})}" method="post" th:object="${dateFilter}">
+        <div>
+            <label for="start-date">Start date:</label>
+            <input type="date" th:field="${dateFilter.startDate}" id="start-date"/>
+        </div>
+        <div>
+            <label for="end-date">Start date:</label>
+            <input type="date" th:field="${dateFilter.endDate}" id="end-date"/>
+        </div>
+        <div>
+            <button type="submit" class="button">Submit</button>
+        </div>
+    </form>
+    <br/><br/>
+    <div class="container" id="pressureSection">
+        <h4>Pressure Readings</h4>
+        <hr/>
+        <h5 th:if="${pressures.empty}">There are no pressure readings</h5>
+        <table class="table table-bordered table-striped" id="pressureTable" th:unless="${pressures.empty}">
+            <thead>
+            <tr>
+                <th>Timestamp</th>
+                <th>Value</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="pressure : ${pressures}">
+                <td th:text="${pressure.timestamp}"></td>
+                <td th:text="${pressure.value}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <br/><br/>
+    <div class="container" id="temperatureSection">
+        <h4>Temperature Readings</h4>
+        <hr/>
+        <h5 th:if="${temperatures.empty}">There are no temperature readings</h5>
+        <table class="table table-bordered table-striped" id="temperatureTable" th:unless="${temperatures.empty}">
+            <thead>
+            <tr>
+                <th>Timestamp</th>
+                <th>Value</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="temperature : ${temperatures}">
+                <td th:text="${temperature.timestamp}"></td>
+                <td th:text="${temperature.value}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <a th:href="@{/}">Back to dashboard</a>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/v/bs4/dt-1.10.25/datatables.min.js" type="text/javascript"></script>
+<script>
+			$(document).ready(function() {
+				$("#pressureTable").DataTable();
+			})
+
+			$(document).ready(function() {
+				$("#temperatureTable").DataTable();
+			})
+</script>
+</body>
+</html>

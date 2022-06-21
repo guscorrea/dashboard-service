@@ -15,6 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.dt.dashboardservice.client.ChokeValveClient;
 import com.dt.dashboardservice.client.ComponentClient;
 import com.dt.dashboardservice.client.WellOrchestratorClient;
+import com.dt.dashboardservice.model.chokevalve.DateFilter;
 import com.dt.dashboardservice.model.well.ComponentRequest;
 import com.dt.dashboardservice.model.well.ComponentType;
 import com.dt.dashboardservice.model.well.Well;
@@ -66,6 +67,22 @@ public class DetailsController {
 		redirectAttributes.addAttribute("wellId", wellId);
 		componentClient.removeComponent(wellId, componentId);
 		return "redirect:/details";
+	}
+
+	@GetMapping("/show-readings")
+	public ModelAndView showReadingsForm(@RequestParam UUID componentId) {
+		ModelAndView modelAndView = new ModelAndView("show-readings-form");
+		modelAndView.addObject("component", componentId);
+		modelAndView.addObject("pressures", chokeValveClient.getAllPressuresById(componentId));
+		modelAndView.addObject("temperatures", chokeValveClient.getAllTemperaturesById(componentId));
+		modelAndView.addObject("dateFilter", new DateFilter());
+		return modelAndView;
+	}
+
+	@PostMapping("/date-filter")
+	public String filterDate(@ModelAttribute DateFilter dateFilter, @RequestParam UUID componentId, RedirectAttributes redirectAttributes) {
+		redirectAttributes.addAttribute("componentId", componentId);
+		return "redirect:/show-readings";
 	}
 
 }
