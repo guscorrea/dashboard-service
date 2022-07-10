@@ -76,6 +76,65 @@
             </tbody>
         </table>
     </div>
+    <br><br/>
+    <div class="container" id="anmSection">
+        <h3>ANM</h3>
+        <hr/>
+        <a class="btn btn-primary mb-2" th:href="@{/add-anm-form}">Create ANM</a>
+        <h5 th:if="${anms.empty}">There are no ANMs registered</h5>
+        <table class="table table-bordered table-striped" id="anmTable" th:unless="${anms.empty}">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Info</th>
+                <th>PXO Status</th>
+                <th>XO Status</th>
+                <th>W1 Status</th>
+                <th>W2 Status</th>
+                <th>M1 Status</th>
+                <th>M2 Status</th>
+                <th>Creation Date</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="anm : ${anms}">
+                <td th:text="${anm.name}"></td>
+                <td th:text="${anm.anmInfo}"></td>
+                <td>
+                    <span th:if="${anm.pxoValveIsOpen}" class="badge bg-success text-white">Open</span>
+                    <span th:unless="${anm.pxoValveIsOpen}" class="badge bg-danger text-white">Closed</span>
+                </td>
+                <td>
+                    <span th:if="${anm.xoValveIsOpen}" class="badge bg-success text-white">Open</span>
+                    <span th:unless="${anm.xoValveIsOpen}" class="badge bg-danger text-white">Closed</span>
+                </td>
+                <td>
+                    <span th:if="${anm.w1ValveIsOpen}" class="badge bg-success text-white">Open</span>
+                    <span th:unless="${anm.w1ValveIsOpen}" class="badge bg-danger text-white">Closed</span>
+                </td>
+                <td>
+                    <span th:if="${anm.w2ValveIsOpen}" class="badge bg-success text-white">Open</span>
+                    <span th:unless="${anm.w2ValveIsOpen}" class="badge bg-danger text-white">Closed</span>
+                </td>
+                <td>
+                    <span th:if="${anm.m1ValveIsOpen}" class="badge bg-success text-white">Open</span>
+                    <span th:unless="${anm.m1ValveIsOpen}" class="badge bg-danger text-white">Closed</span>
+                </td>
+                <td>
+                    <span th:if="${anm.m2ValveIsOpen}" class="badge bg-success text-white">Open</span>
+                    <span th:unless="${anm.m2ValveIsOpen}" class="badge bg-danger text-white">Closed</span>
+                </td>
+                <td th:text="${anm.creationDateTime}"></td>
+                <td>
+                    <a class="btn btn-info mb-2"
+                       th:href="@{/show-anm-update-form(anmId=${anm.anmId})}">Update</a>
+                    <a class="btn btn-danger" th:href="@{/delete-anm(anmId=${anm.anmId})}">Delete</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
     <br/><br/>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -95,6 +154,15 @@
 						'aoColumnDefs': [{
         				'bSortable': false,
         				'aTargets': [-1] /* 1st one, start by the right */
+    				}]
+				});
+			})
+
+			$(document).ready(function() {
+				$("#anmTable").DataTable({
+						'aoColumnDefs': [{
+        				'bSortable': false,
+        				'aTargets': [-1, -3, -4, -5, -6, -7, -8] /* 1st one, start by the right */
     				}]
 				});
 			})
