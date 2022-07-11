@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.dt.dashboardservice.client.AnmClient;
 import com.dt.dashboardservice.client.ChokeValveClient;
+import com.dt.dashboardservice.client.TubingClient;
 import com.dt.dashboardservice.client.WellOrchestratorClient;
 
 @Controller
@@ -20,11 +21,15 @@ public class RootController {
 
 	private final AnmClient anmClient;
 
+	private final TubingClient tubingClient;
+
 	@Autowired
-	public RootController(WellOrchestratorClient wellOrchestratorClient, ChokeValveClient chokeValveClient, AnmClient anmClient) {
+	public RootController(WellOrchestratorClient wellOrchestratorClient, ChokeValveClient chokeValveClient, AnmClient anmClient,
+			TubingClient tubingClient) {
 		this.wellOrchestratorClient = wellOrchestratorClient;
 		this.chokeValveClient = chokeValveClient;
 		this.anmClient = anmClient;
+		this.tubingClient = tubingClient;
 	}
 
 	@GetMapping
@@ -32,6 +37,7 @@ public class RootController {
 		model.addAttribute("wells", wellOrchestratorClient.getAllWells());
 		model.addAttribute("chokeValves", chokeValveClient.getAllChokeValves());
 		model.addAttribute("anms", anmClient.getAllAnms());
+		model.addAttribute("tubings", tubingClient.getAllTubings());
 		return "index";
 	}
 
