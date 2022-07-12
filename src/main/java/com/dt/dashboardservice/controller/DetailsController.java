@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.dt.dashboardservice.client.AnmClient;
 import com.dt.dashboardservice.client.ChokeValveClient;
 import com.dt.dashboardservice.client.ComponentClient;
+import com.dt.dashboardservice.client.TubingClient;
 import com.dt.dashboardservice.client.WellOrchestratorClient;
 import com.dt.dashboardservice.model.chokevalve.DateFilter;
 import com.dt.dashboardservice.model.well.ComponentRequest;
@@ -27,12 +29,19 @@ public class DetailsController {
 
 	private final ChokeValveClient chokeValveClient;
 
+	private final AnmClient anmClient;
+
+	private final TubingClient tubingClient;
+
 	private final ComponentClient componentClient;
 
 	@Autowired
-	public DetailsController(WellOrchestratorClient wellOrchestratorClient, ChokeValveClient chokeValveClient, ComponentClient componentClient) {
+	public DetailsController(WellOrchestratorClient wellOrchestratorClient, ChokeValveClient chokeValveClient, AnmClient anmClient,
+			TubingClient tubingClient, ComponentClient componentClient) {
 		this.wellOrchestratorClient = wellOrchestratorClient;
 		this.chokeValveClient = chokeValveClient;
+		this.anmClient = anmClient;
+		this.tubingClient = tubingClient;
 		this.componentClient = componentClient;
 	}
 
@@ -47,8 +56,10 @@ public class DetailsController {
 	@GetMapping("/add-component-form")
 	public ModelAndView addComponentForm(@RequestParam UUID wellId) {
 		ModelAndView modelAndView = new ModelAndView("add-component-form");
-		modelAndView.addObject("chokeValveOptions", chokeValveClient.getAllChokeValves());
 		modelAndView.addObject("availableComponents", Arrays.asList(ComponentType.values()));
+		modelAndView.addObject("chokeValveOptions", chokeValveClient.getAllChokeValves());
+		modelAndView.addObject("anmOptions", anmClient.getAllAnms());
+		modelAndView.addObject("tubingOptions", tubingClient.getAllTubings());
 		modelAndView.addObject("componentRequest", new ComponentRequest());
 		modelAndView.addObject("id", wellId);
 		return modelAndView;

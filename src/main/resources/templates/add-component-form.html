@@ -16,16 +16,49 @@
 
     <form method="POST" th:action="@{/add-component(wellId=${id})}">
 
-        <div th:each="componentType : ${availableComponents}">
-            <input required th:field="*{componentRequest.type}" th:value="${componentType}"
-                   type="radio"/><label
-                th:text="| ${componentType}|"></label>
+        <div class="form-check">
+            <h4>Available Components</h4>
+            <hr/>
+            <div th:each="componentType : ${availableComponents}">
+                <input required th:field="*{componentRequest.type}" th:value="${componentType}"
+                       type="radio"/><label
+                    th:text="| ${componentType}|"></label>
+            </div>
         </div>
 
-        <select class="form-control col-4 mb-4" id="dropDownList" th:field="*{componentRequest.componentId}">
-            <option th:each="chokeValve : ${chokeValveOptions}" th:text="${chokeValve.name}"
-                    th:value="${chokeValve.chokeValveId}"></option>
-        </select>
+        <div class="form-check">
+            <h4>Choke Valve options:</h4>
+            <hr/>
+            <h5 th:if="${chokeValveOptions.empty}">There are no Choke Valves available.</h5>
+            <div th:each="chokeValve : ${chokeValveOptions}" th:unless="${chokeValveOptions.empty}">
+                <input required th:field="*{componentRequest.componentId}" th:value="${chokeValve.chokeValveId}"
+                       type="radio"/><label
+                    th:text="| ${chokeValve.name}|"></label>
+            </div>
+
+            </br>
+
+            <h4>ANM options:</h4>
+            <hr/>
+            <h5 th:if="${anmOptions.empty}">There are no ANMs available.</h5>
+            <div th:each="anm : ${anmOptions}" th:unless="${anmOptions.empty}">
+                <input required th:field="*{componentRequest.componentId}" th:value="${anm.anmId}"
+                       type="radio"/><label
+                    th:text="| ${anm.name}|"></label>
+            </div>
+
+            </br>
+
+            <h4>Tubing options:</h4>
+            <hr/>
+            <h5 th:if="${tubingOptions.empty}">There are no Tubings available.</h5>
+            <div th:each="tubing : ${tubingOptions}" th:unless="${tubingOptions.empty}">
+                <input required th:field="*{componentRequest.componentId}" th:value="${tubing.tubingId}"
+                       type="radio"/><label
+                    th:text="| ${tubing.name}|"></label>
+            </div>
+
+        </div>
 
         <button class="btn btn-primary col-2" type="submit">Save</button>
 
