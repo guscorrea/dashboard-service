@@ -70,6 +70,47 @@
             </tbody>
         </table>
     </div>
+    <br/><br/>
+    <div class="container" id="customMeasureSection">
+        <h4>Custom Measure Readings</h4>
+        <hr/>
+        <h5 th:if="${customMeasures.empty}">There are no custom readings</h5>
+        <table class="table table-bordered table-striped" id="customMeasureTable" th:unless="${customMeasures.empty}">
+            <thead>
+            <tr>
+                <th>Property Type</th>
+                <th>Timestamp</th>
+                <th>Value</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="customMeasure : ${customMeasures}">
+                <td th:text="${customMeasure.propertyType}"></td>
+                <td th:text="${customMeasure.timestamp}"></td>
+                <td th:text="${customMeasure.value}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <br/><br/>
+    <div class="container" id="flowSection" th:unless="${flows.empty}">
+        <h4>Flow Readings</h4>
+        <hr/>
+        <table class="table table-bordered table-striped" id="flowTable">
+            <thead>
+            <tr>
+                <th>Timestamp</th>
+                <th>Percentage</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="flow : ${flows}">
+                <td th:text="${flow.timestamp}"></td>
+                <td th:text="${flow.percentage}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
     <a th:href="@{/}">Back to dashboard</a>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -81,6 +122,13 @@
 
 			$(document).ready(function() {
 				$("#temperatureTable").DataTable();
+			})
+			$(document).ready(function() {
+				$("#customMeasureTable").DataTable();
+			})
+
+			$(document).ready(function() {
+				$("#flowTable").DataTable();
 			})
 </script>
 </body>

@@ -16,6 +16,7 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.dt.dashboardservice.model.chokevalve.CustomMeasure;
 import com.dt.dashboardservice.model.chokevalve.Pressure;
 import com.dt.dashboardservice.model.chokevalve.Temperature;
 import com.dt.dashboardservice.model.tubing.Tubing;
@@ -74,6 +75,13 @@ public class TubingClient {
 		String pathVariable = "/temperature/" + componentId.toString();
 		ResponseEntity<Temperature[]> response = restTemplate.exchange(serviceRootUrl + pathVariable, HttpMethod.GET, createHeaders(),
 				Temperature[].class);
+		return Arrays.asList(response.getBody());
+	}
+
+	public List<CustomMeasure> getAllCustomMeasuresById(UUID componentId) {
+		String pathVariable = "/measure/" + componentId.toString();
+		ResponseEntity<CustomMeasure[]> response = restTemplate.exchange(serviceRootUrl + pathVariable, HttpMethod.GET, createHeaders(),
+				CustomMeasure[].class);
 		return Arrays.asList(response.getBody());
 	}
 

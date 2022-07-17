@@ -18,6 +18,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.dt.dashboardservice.model.chokevalve.ChokeValve;
 import com.dt.dashboardservice.model.chokevalve.ChokeValveRequest;
+import com.dt.dashboardservice.model.chokevalve.CustomMeasure;
+import com.dt.dashboardservice.model.chokevalve.Flow;
 import com.dt.dashboardservice.model.chokevalve.Pressure;
 import com.dt.dashboardservice.model.chokevalve.Temperature;
 
@@ -74,6 +76,20 @@ public class ChokeValveClient {
 		String pathVariable = "/temperature/" + componentId.toString();
 		ResponseEntity<Temperature[]> response = restTemplate.exchange(serviceRootUrl + pathVariable, HttpMethod.GET, createHeaders(),
 				Temperature[].class);
+		return Arrays.asList(response.getBody());
+	}
+
+	public List<Flow> getAllFlowsById(UUID componentId) {
+		String pathVariable = "/flow/" + componentId.toString();
+		ResponseEntity<Flow[]> response = restTemplate.exchange(serviceRootUrl + pathVariable, HttpMethod.GET, createHeaders(),
+				Flow[].class);
+		return Arrays.asList(response.getBody());
+	}
+
+	public List<CustomMeasure> getAllCustomMeasuresById(UUID componentId) {
+		String pathVariable = "/measure/" + componentId.toString();
+		ResponseEntity<CustomMeasure[]> response = restTemplate.exchange(serviceRootUrl + pathVariable, HttpMethod.GET, createHeaders(),
+				CustomMeasure[].class);
 		return Arrays.asList(response.getBody());
 	}
 

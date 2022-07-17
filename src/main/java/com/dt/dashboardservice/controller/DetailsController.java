@@ -81,11 +81,21 @@ public class DetailsController {
 	}
 
 	@GetMapping("/show-readings")
-	public ModelAndView showReadingsForm(@RequestParam UUID componentId) {
+	public ModelAndView showReadingsForm(@RequestParam UUID componentId, @RequestParam ComponentType componentType) {
 		ModelAndView modelAndView = new ModelAndView("show-readings-form");
 		modelAndView.addObject("component", componentId);
-		modelAndView.addObject("pressures", chokeValveClient.getAllPressuresById(componentId));
-		modelAndView.addObject("temperatures", chokeValveClient.getAllTemperaturesById(componentId));
+		if (ComponentType.choke.equals(componentType)) {
+			addChokeValveOptions(componentId, modelAndView);
+		}
+
+		if (ComponentType.anm.equals(componentType)) {
+			addAnmOptions(componentId, modelAndView);
+		}
+
+		if (ComponentType.tubing.equals(componentType)) {
+			addTubingOptions(componentId, modelAndView);
+		}
+
 		modelAndView.addObject("dateFilter", new DateFilter());
 		return modelAndView;
 	}
@@ -94,6 +104,27 @@ public class DetailsController {
 	public String filterDate(@ModelAttribute DateFilter dateFilter, @RequestParam UUID componentId, RedirectAttributes redirectAttributes) {
 		redirectAttributes.addAttribute("componentId", componentId);
 		return "redirect:/show-readings";
+	}
+
+	private void addTubingOptions(UUID componentId, ModelAndView modelAndView) {
+		modelAndView.addObject("pressures", tubingClient.getAllPressuresById(componentId));
+		modelAndView.addObject("temperatures", tubingClient.getAllTemperaturesById(componentId));
+		modelAndView.addObject("customMeasures",  tubingClient.getAllCustomMeasuresById(componentId));
+		modelAndView.addObject("flows", Arrays.asList());
+	}
+
+	private void addAnmOptions(UUID componentId, ModelAndView modelAndView) {
+		modelAndView.addObject("pressures", anmClient.getAllPressuresById(componentId));
+		modelAndView.addObject("temperatures", anmClient.getAllTemperaturesById(componentId));
+		modelAndView.addObject("customMeasures",  anmClient.getAllCustomMeasuresById(componentId));
+		modelAndView.addObject("flows", Arrays.asList());
+	}
+
+	private void addChokeValveOptions(UUID componentId, ModelAndView modelAndView) {
+		modelAndView.addObject("pressures", chokeValveClient.getAllPressuresById(componentId));
+		modelAndView.addObject("temperatures", chokeValveClient.getAllTemperaturesById(componentId));
+		modelAndView.addObject("customMeasures", chokeValveClient.getAllCustomMeasuresById(componentId));
+		modelAndView.addObject("flows", chokeValveClient.getAllFlowsById(componentId));
 	}
 
 }
