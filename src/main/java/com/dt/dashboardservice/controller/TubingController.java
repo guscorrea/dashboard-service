@@ -10,17 +10,23 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.dt.dashboardservice.client.PdgClient;
 import com.dt.dashboardservice.client.TubingClient;
+import com.dt.dashboardservice.model.tubing.Tubing;
 import com.dt.dashboardservice.model.tubing.TubingRequest;
+import com.dt.dashboardservice.model.well.ComponentType;
 
 @Controller
 public class TubingController {
 
 	private final TubingClient tubingClient;
 
+	private final PdgClient pdgClient;
+
 	@Autowired
-	public TubingController(TubingClient tubingClient) {
+	public TubingController(TubingClient tubingClient, PdgClient pdgClient) {
 		this.tubingClient = tubingClient;
+		this.pdgClient = pdgClient;
 	}
 
 	@GetMapping("/add-tubing-form")
@@ -56,6 +62,16 @@ public class TubingController {
 	public String deleteTubing(@RequestParam UUID tubingId) {
 		tubingClient.deleteTubing(tubingId);
 		return "redirect:/";
+	}
+
+	@GetMapping("/tubing-details")
+	public ModelAndView tubingDetails(@RequestParam UUID tubingId) {
+		ModelAndView modelAndView = new ModelAndView("tubing-details");
+		Tubing tubing = tubingClient.getTubing(tubingId);
+		modelAndView.addObject("tubing", tubing);
+		modelAndView.addObject("pdgs", pdgClient.getAllPdgsByIdList(tubing.getPdgIdList()));
+		modelAndView.addObject("componentType", ComponentType.tubing);
+		return modelAndView;
 	}
 
 }

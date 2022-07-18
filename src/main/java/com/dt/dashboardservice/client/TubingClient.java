@@ -47,6 +47,13 @@ public class TubingClient {
 		}
 	}
 
+	public Tubing getTubing(UUID tubingId) {
+		String pathVariable = "/" + tubingId.toString();
+		String uri = UriComponentsBuilder.fromHttpUrl(serviceRootUrl + TUBING_PATH).path(pathVariable).toUriString();
+		ResponseEntity<Tubing> response = restTemplate.exchange(uri, HttpMethod.GET, createHeaders(), Tubing.class);
+		return response.getBody();
+	}
+
 	public Tubing postTubing(TubingRequest tubingRequest) {
 		ResponseEntity<Tubing> response = restTemplate.postForEntity(serviceRootUrl + TUBING_PATH, tubingRequest, Tubing.class);
 		return response.getBody();
