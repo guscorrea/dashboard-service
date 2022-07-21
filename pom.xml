@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.dt</groupId>
 	<artifactId>dashboard-service</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>dashboard-service</name>
 	<description>Digital Twin dashboard service</description>
 	<properties>
