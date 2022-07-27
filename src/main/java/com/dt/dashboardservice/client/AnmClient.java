@@ -25,7 +25,7 @@ import com.dt.dashboardservice.model.chokevalve.Temperature;
 @Component
 public class AnmClient {
 
-	private static final String ANM_PATH = "/anm";
+	private static final String ANM_PATH = "/v1/anm";
 
 	private final String serviceRootUrl;
 
@@ -65,21 +65,21 @@ public class AnmClient {
 	}
 
 	public List<Pressure> getAllPressuresById(UUID componentId) {
-		String pathVariable = "/pressure/" + componentId.toString();
+		String pathVariable = "/v1/pressure/" + componentId.toString();
 		ResponseEntity<Pressure[]> response = restTemplate.exchange(serviceRootUrl + pathVariable, HttpMethod.GET, createHeaders(),
 				Pressure[].class);
 		return Arrays.asList(response.getBody());
 	}
 
 	public List<Temperature> getAllTemperaturesById(UUID componentId) {
-		String pathVariable = "/temperature/" + componentId.toString();
+		String pathVariable = "/v1/temperature/" + componentId.toString();
 		ResponseEntity<Temperature[]> response = restTemplate.exchange(serviceRootUrl + pathVariable, HttpMethod.GET, createHeaders(),
 				Temperature[].class);
 		return Arrays.asList(response.getBody());
 	}
 
 	public List<CustomMeasure> getAllCustomMeasuresById(UUID componentId) {
-		String pathVariable = "/measure/" + componentId.toString();
+		String pathVariable = "/v1/measure/" + componentId.toString();
 		ResponseEntity<CustomMeasure[]> response = restTemplate.exchange(serviceRootUrl + pathVariable, HttpMethod.GET, createHeaders(),
 				CustomMeasure[].class);
 		return Arrays.asList(response.getBody());

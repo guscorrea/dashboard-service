@@ -23,13 +23,13 @@ public class ComponentClient {
 	}
 
 	public void addComponent(UUID wellId, ComponentRequest componentRequest) {
-		String path = "/well-orchestrator/add-component/%s";
+		String path = "/v1/add-component/%s";
 		ResponseEntity<Well> response = restTemplate.postForEntity(serviceRootUrl + String.format(path, wellId.toString()), componentRequest,
 				Well.class);
 	}
 
 	public void removeComponent(UUID wellId, UUID componentId) {
-		String path = "/well-orchestrator/remove-component/well/%s/component/%s";
+		String path = "/v1/remove-component/well/%s/component/%s";
 		restTemplate.delete(serviceRootUrl + String.format(path, wellId.toString(), componentId.toString()));
 	}
 

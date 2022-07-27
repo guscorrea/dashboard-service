@@ -21,7 +21,7 @@ import com.dt.dashboardservice.model.tubing.PdgRequest;
 @Component
 public class PdgClient {
 
-	private static final String PDG_PATH = "/pdg";
+	private static final String PDG_PATH = "/v1/pdg";
 
 	private final String serviceRootUrl;
 

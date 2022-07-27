@@ -25,7 +25,7 @@ import com.dt.dashboardservice.model.tubing.TubingRequest;
 @Component
 public class TubingClient {
 
-	private static final String TUBING_PATH = "/tubing";
+	private static final String TUBING_PATH = "/v1/tubing";
 
 	private final String serviceRootUrl;
 
@@ -72,21 +72,21 @@ public class TubingClient {
 	}
 
 	public List<Pressure> getAllPressuresById(UUID componentId) {
-		String pathVariable = "/pressure/" + componentId.toString();
+		String pathVariable = "/v1/pressure/" + componentId.toString();
 		ResponseEntity<Pressure[]> response = restTemplate.exchange(serviceRootUrl + pathVariable, HttpMethod.GET, createHeaders(),
 				Pressure[].class);
 		return Arrays.asList(response.getBody());
 	}
 
 	public List<Temperature> getAllTemperaturesById(UUID componentId) {
-		String pathVariable = "/temperature/" + componentId.toString();
+		String pathVariable = "/v1/temperature/" + componentId.toString();
 		ResponseEntity<Temperature[]> response = restTemplate.exchange(serviceRootUrl + pathVariable, HttpMethod.GET, createHeaders(),
 				Temperature[].class);
 		return Arrays.asList(response.getBody());
 	}
 
 	public List<CustomMeasure> getAllCustomMeasuresById(UUID componentId) {
-		String pathVariable = "/measure/" + componentId.toString();
+		String pathVariable = "/v1/measure/" + componentId.toString();
 		ResponseEntity<CustomMeasure[]> response = restTemplate.exchange(serviceRootUrl + pathVariable, HttpMethod.GET, createHeaders(),
 				CustomMeasure[].class);
 		return Arrays.asList(response.getBody());

@@ -22,7 +22,7 @@ import com.dt.dashboardservice.model.well.WellRequest;
 @Component
 public class WellOrchestratorClient {
 
-	private static final String WELL_PATH = "/well-orchestrator/well";
+	private static final String WELL_PATH = "/v1/well";
 
 	private final String serviceRootUrl;
 
