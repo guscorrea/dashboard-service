@@ -18,8 +18,10 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.dt.dashboardservice.model.well.Well;
 import com.dt.dashboardservice.model.well.WellRequest;
+import lombok.extern.slf4j.Slf4j;
 
 @Component
+@Slf4j
 public class WellOrchestratorClient {
 
 	private static final String WELL_PATH = "/v1/well";
@@ -51,6 +53,7 @@ public class WellOrchestratorClient {
 	}
 
 	public Well postWell(WellRequest wellRequest) {
+		log.info("Sending a create well request with name {}", wellRequest.getName());
 		ResponseEntity<Well> response = restTemplate.postForEntity(serviceRootUrl + WELL_PATH, wellRequest, Well.class);
 		return response.getBody();
 	}
