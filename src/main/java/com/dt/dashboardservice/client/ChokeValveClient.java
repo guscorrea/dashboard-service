@@ -22,8 +22,10 @@ import com.dt.dashboardservice.model.chokevalve.CustomMeasure;
 import com.dt.dashboardservice.model.chokevalve.Flow;
 import com.dt.dashboardservice.model.chokevalve.Pressure;
 import com.dt.dashboardservice.model.chokevalve.Temperature;
+import lombok.extern.slf4j.Slf4j;
 
 @Component
+@Slf4j
 public class ChokeValveClient {
 
 	private static final String CHOKE_VALVE_PATH = "/v1/choke-valve";
@@ -49,17 +51,20 @@ public class ChokeValveClient {
 	}
 
 	public ChokeValve postChokeValve(ChokeValveRequest chokeValveRequest) {
+		log.info("Sending a create Choke Valve request with name {}", chokeValveRequest.getName());
 		ResponseEntity<ChokeValve> response = restTemplate.postForEntity(serviceRootUrl + CHOKE_VALVE_PATH, chokeValveRequest, ChokeValve.class);
 		return response.getBody();
 	}
 
 	public void putChokeValve(ChokeValveRequest chokeValveRequest, UUID chokeValveId) {
+		log.info("Sending a update Choke Valve request with name: {}", chokeValveRequest.getName());
 		String pathVariable = "/" + chokeValveId.toString();
 		String uri = UriComponentsBuilder.fromHttpUrl(serviceRootUrl + CHOKE_VALVE_PATH).path(pathVariable).toUriString();
 		restTemplate.put(uri, chokeValveRequest);
 	}
 
 	public void deleteChokeValve(UUID chokeValveId) {
+		log.info("Sending a delete Choke Valve request with id: {}", chokeValveId);
 		String pathVariable = "/" + chokeValveId.toString();
 		String uri = UriComponentsBuilder.fromHttpUrl(serviceRootUrl + CHOKE_VALVE_PATH).path(pathVariable).toUriString();
 		restTemplate.delete(uri);

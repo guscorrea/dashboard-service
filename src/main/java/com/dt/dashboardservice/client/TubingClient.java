@@ -21,8 +21,10 @@ import com.dt.dashboardservice.model.chokevalve.Pressure;
 import com.dt.dashboardservice.model.chokevalve.Temperature;
 import com.dt.dashboardservice.model.tubing.Tubing;
 import com.dt.dashboardservice.model.tubing.TubingRequest;
+import lombok.extern.slf4j.Slf4j;
 
 @Component
+@Slf4j
 public class TubingClient {
 
 	private static final String TUBING_PATH = "/v1/tubing";
@@ -48,6 +50,7 @@ public class TubingClient {
 	}
 
 	public Tubing getTubing(UUID tubingId) {
+		log.info("Sending a retrieve tubing request with id {}", tubingId);
 		String pathVariable = "/" + tubingId.toString();
 		String uri = UriComponentsBuilder.fromHttpUrl(serviceRootUrl + TUBING_PATH).path(pathVariable).toUriString();
 		ResponseEntity<Tubing> response = restTemplate.exchange(uri, HttpMethod.GET, createHeaders(), Tubing.class);
@@ -55,17 +58,20 @@ public class TubingClient {
 	}
 
 	public Tubing postTubing(TubingRequest tubingRequest) {
+		log.info("Sending a create tubing request with name {}", tubingRequest.getName());
 		ResponseEntity<Tubing> response = restTemplate.postForEntity(serviceRootUrl + TUBING_PATH, tubingRequest, Tubing.class);
 		return response.getBody();
 	}
 
 	public void putTubing(TubingRequest tubingRequest, UUID tubingId) {
+		log.info("Sending a update tubing request with name: {}", tubingRequest.getName());
 		String pathVariable = "/" + tubingId.toString();
 		String uri = UriComponentsBuilder.fromHttpUrl(serviceRootUrl + TUBING_PATH).path(pathVariable).toUriString();
 		restTemplate.put(uri, tubingRequest);
 	}
 
 	public void deleteTubing(UUID tubingId) {
+		log.info("Sending a delete tubing request with id: {}", tubingId);
 		String pathVariable = "/" + tubingId.toString();
 		String uri = UriComponentsBuilder.fromHttpUrl(serviceRootUrl + TUBING_PATH).path(pathVariable).toUriString();
 		restTemplate.delete(uri);

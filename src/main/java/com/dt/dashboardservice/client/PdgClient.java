@@ -17,8 +17,10 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.dt.dashboardservice.model.tubing.Pdg;
 import com.dt.dashboardservice.model.tubing.PdgRequest;
+import lombok.extern.slf4j.Slf4j;
 
 @Component
+@Slf4j
 public class PdgClient {
 
 	private static final String PDG_PATH = "/v1/pdg";
@@ -33,6 +35,7 @@ public class PdgClient {
 	}
 
 	public Pdg getPdg(UUID pdgId) {
+		log.info("Sending a retrieve PDG request with id {}", pdgId);
 		String pathVariable = "/" + pdgId.toString();
 		String uri = UriComponentsBuilder.fromHttpUrl(serviceRootUrl + PDG_PATH).path(pathVariable).toUriString();
 		ResponseEntity<Pdg> response = restTemplate.exchange(uri, HttpMethod.GET, createHeaders(), Pdg.class);
@@ -53,18 +56,21 @@ public class PdgClient {
 	}
 
 	public void postPdg(PdgRequest pdgRequest, UUID tubingId) {
+		log.info("Sending a create pdg request with name {} for tubing {}", pdgRequest.getName(), tubingId);
 		String pathVariable = "/" + tubingId.toString();
 		String uri = UriComponentsBuilder.fromHttpUrl(serviceRootUrl + PDG_PATH).path(pathVariable).toUriString();
 		restTemplate.postForEntity(uri, pdgRequest, Pdg.class);
 	}
 
 	public void putPdg(PdgRequest pdgRequest, UUID pdgId) {
+		log.info("Sending a update pdg request with name: {}", pdgRequest.getName());
 		String pathVariable = "/" + pdgId.toString();
 		String uri = UriComponentsBuilder.fromHttpUrl(serviceRootUrl + PDG_PATH).path(pathVariable).toUriString();
 		restTemplate.put(uri, pdgRequest);
 	}
 
 	public void deletePdg(UUID pdgId) {
+		log.info("Sending a delete pdg request with id: {}",pdgId);
 		String pathVariable = "/" + pdgId.toString();
 		String uri = UriComponentsBuilder.fromHttpUrl(serviceRootUrl + PDG_PATH).path(pathVariable).toUriString();
 		restTemplate.delete(uri);

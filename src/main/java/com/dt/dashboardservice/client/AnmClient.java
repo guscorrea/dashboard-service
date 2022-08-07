@@ -21,8 +21,10 @@ import com.dt.dashboardservice.model.anm.AnmRequest;
 import com.dt.dashboardservice.model.chokevalve.CustomMeasure;
 import com.dt.dashboardservice.model.chokevalve.Pressure;
 import com.dt.dashboardservice.model.chokevalve.Temperature;
+import lombok.extern.slf4j.Slf4j;
 
 @Component
+@Slf4j
 public class AnmClient {
 
 	private static final String ANM_PATH = "/v1/anm";
@@ -48,17 +50,20 @@ public class AnmClient {
 	}
 
 	public Anm postAnm(AnmRequest anmRequest) {
+		log.info("Sending a create ANM request with name {}", anmRequest.getName());
 		ResponseEntity<Anm> response = restTemplate.postForEntity(serviceRootUrl + ANM_PATH, anmRequest, Anm.class);
 		return response.getBody();
 	}
 
 	public void putAnm(AnmRequest anmRequest, UUID anmId) {
+		log.info("Sending a update ANM request with name: {}", anmRequest.getName());
 		String pathVariable = "/" + anmId.toString();
 		String uri = UriComponentsBuilder.fromHttpUrl(serviceRootUrl + ANM_PATH).path(pathVariable).toUriString();
 		restTemplate.put(uri, anmRequest);
 	}
 
 	public void deleteAnm(UUID anmId) {
+		log.info("Sending a delete ANM request with id: {}", anmId);
 		String pathVariable = "/" + anmId.toString();
 		String uri = UriComponentsBuilder.fromHttpUrl(serviceRootUrl + ANM_PATH).path(pathVariable).toUriString();
 		restTemplate.delete(uri);

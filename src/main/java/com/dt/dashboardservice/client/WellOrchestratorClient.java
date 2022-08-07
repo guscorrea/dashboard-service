@@ -46,6 +46,7 @@ public class WellOrchestratorClient {
 	}
 
 	public Well getWell(UUID wellId) {
+		log.info("Sending a retrieve well request with id {}", wellId);
 		String pathVariable = "/" + wellId.toString();
 		String uri = UriComponentsBuilder.fromHttpUrl(serviceRootUrl + WELL_PATH).path(pathVariable).toUriString();
 		ResponseEntity<Well> response = restTemplate.exchange(uri, HttpMethod.GET, createHeaders(), Well.class);
@@ -59,12 +60,14 @@ public class WellOrchestratorClient {
 	}
 
 	public void putWell(WellRequest wellRequest, UUID wellId) {
+		log.info("Sending a update well request with name: {}", wellRequest.getName());
 		String pathVariable = "/" + wellId.toString();
 		String uri = UriComponentsBuilder.fromHttpUrl(serviceRootUrl + WELL_PATH).path(pathVariable).toUriString();
 		restTemplate.put(uri, wellRequest);
 	}
 
 	public void deleteWell(UUID wellId) {
+		log.info("Sending a delete well request with id: {}", wellId);
 		String pathVariable = "/" + wellId.toString();
 		String uri = UriComponentsBuilder.fromHttpUrl(serviceRootUrl + WELL_PATH).path(pathVariable).toUriString();
 		restTemplate.delete(uri);
