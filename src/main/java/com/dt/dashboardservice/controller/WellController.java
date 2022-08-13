@@ -28,14 +28,12 @@ public class WellController {
 
 	@PostMapping("/save-well")
 	public String saveWell(@ModelAttribute WellRequest wellRequest) {
-		//TODO handle this request
 		wellOrchestratorClient.postWell(wellRequest);
 		return "redirect:/";
 	}
 
 	@PostMapping("/update-well")
 	public String updateWell(@ModelAttribute WellRequest wellRequest, @RequestParam UUID wellId) {
-		//TODO handle this request
 		wellOrchestratorClient.putWell(wellRequest, wellId);
 		return "redirect:/";
 	}

@@ -32,7 +32,6 @@ public class AnmController {
 
 	@PostMapping("/save-anm")
 	public String saveAnm(@ModelAttribute AnmRequest anmRequest) {
-		//TODO handle this request
 		anmClient.postAnm(anmRequest);
 		return "redirect:/";
 	}
@@ -47,7 +46,6 @@ public class AnmController {
 
 	@PostMapping("/update-anm")
 	public String updateAnm(@ModelAttribute AnmRequest anmRequest, @RequestParam UUID anmId) {
-		//TODO handle this request
 		anmClient.putAnm(anmRequest, anmId);
 		return "redirect:/";
 	}

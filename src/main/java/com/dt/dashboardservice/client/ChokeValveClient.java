@@ -16,19 +16,19 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.dt.dashboardservice.constants.ComponentPathConstants;
 import com.dt.dashboardservice.model.chokevalve.ChokeValve;
 import com.dt.dashboardservice.model.chokevalve.ChokeValveRequest;
 import com.dt.dashboardservice.model.chokevalve.CustomMeasure;
 import com.dt.dashboardservice.model.chokevalve.Flow;
 import com.dt.dashboardservice.model.chokevalve.Pressure;
 import com.dt.dashboardservice.model.chokevalve.Temperature;
+import com.dt.dashboardservice.utils.HttpEntityCreator;
 import lombok.extern.slf4j.Slf4j;
 
 @Component
 @Slf4j
 public class ChokeValveClient {
-
-	private static final String CHOKE_VALVE_PATH = "/v1/choke-valve";
 
 	private final String serviceRootUrl;
 
@@ -41,8 +41,8 @@ public class ChokeValveClient {
 
 	public List<ChokeValve> getAllChokeValves() {
 		try {
-			ResponseEntity<ChokeValve[]> response = restTemplate.exchange(serviceRootUrl + CHOKE_VALVE_PATH, HttpMethod.GET, createHeaders(),
-					ChokeValve[].class);
+			ResponseEntity<ChokeValve[]> response = restTemplate.exchange(serviceRootUrl + ComponentPathConstants.CHOKE_VALVE_PATH, HttpMethod.GET,
+					HttpEntityCreator.createHeaders(), ChokeValve[].class);
 			return Arrays.asList(response.getBody());
 		}
 		catch (RestClientException e) {
@@ -52,56 +52,49 @@ public class ChokeValveClient {
 
 	public ChokeValve postChokeValve(ChokeValveRequest chokeValveRequest) {
 		log.info("Sending a create Choke Valve request with name {}", chokeValveRequest.getName());
-		ResponseEntity<ChokeValve> response = restTemplate.postForEntity(serviceRootUrl + CHOKE_VALVE_PATH, chokeValveRequest, ChokeValve.class);
+		ResponseEntity<ChokeValve> response = restTemplate.postForEntity(serviceRootUrl + ComponentPathConstants.CHOKE_VALVE_PATH, chokeValveRequest,
+				ChokeValve.class);
 		return response.getBody();
 	}
 
 	public void putChokeValve(ChokeValveRequest chokeValveRequest, UUID chokeValveId) {
 		log.info("Sending a update Choke Valve request with name: {}", chokeValveRequest.getName());
 		String pathVariable = "/" + chokeValveId.toString();
-		String uri = UriComponentsBuilder.fromHttpUrl(serviceRootUrl + CHOKE_VALVE_PATH).path(pathVariable).toUriString();
+		String uri = UriComponentsBuilder.fromHttpUrl(serviceRootUrl + ComponentPathConstants.CHOKE_VALVE_PATH).path(pathVariable).toUriString();
 		restTemplate.put(uri, chokeValveRequest);
 	}
 
 	public void deleteChokeValve(UUID chokeValveId) {
 		log.info("Sending a delete Choke Valve request with id: {}", chokeValveId);
 		String pathVariable = "/" + chokeValveId.toString();
-		String uri = UriComponentsBuilder.fromHttpUrl(serviceRootUrl + CHOKE_VALVE_PATH).path(pathVariable).toUriString();
+		String uri = UriComponentsBuilder.fromHttpUrl(serviceRootUrl + ComponentPathConstants.CHOKE_VALVE_PATH).path(pathVariable).toUriString();
 		restTemplate.delete(uri);
 	}
 
 	public List<Pressure> getAllPressuresById(UUID componentId) {
-		String pathVariable = "/v1/pressure/" + componentId.toString();
-		ResponseEntity<Pressure[]> response = restTemplate.exchange(serviceRootUrl + pathVariable, HttpMethod.GET, createHeaders(),
-				Pressure[].class);
+		String pathVariable = ComponentPathConstants.PRESSURE_PATH + componentId.toString();
+		ResponseEntity<Pressure[]> response = restTemplate.exchange(serviceRootUrl + pathVariable, HttpMethod.GET, HttpEntityCreator.createHeaders(), Pressure[].class);
 		return Arrays.asList(response.getBody());
 	}
 
 	public List<Temperature> getAllTemperaturesById(UUID componentId) {
-		String pathVariable = "/v1/temperature/" + componentId.toString();
-		ResponseEntity<Temperature[]> response = restTemplate.exchange(serviceRootUrl + pathVariable, HttpMethod.GET, createHeaders(),
+		String pathVariable = ComponentPathConstants.TEMPERATURE_PATH + componentId.toString();
+		ResponseEntity<Temperature[]> response = restTemplate.exchange(serviceRootUrl + pathVariable, HttpMethod.GET, HttpEntityCreator.createHeaders(),
 				Temperature[].class);
 		return Arrays.asList(response.getBody());
 	}
 
 	public List<Flow> getAllFlowsById(UUID componentId) {
-		String pathVariable = "/v1/flow/" + componentId.toString();
-		ResponseEntity<Flow[]> response = restTemplate.exchange(serviceRootUrl + pathVariable, HttpMethod.GET, createHeaders(),
-				Flow[].class);
+		String pathVariable = ComponentPathConstants.FLOW_PATH + componentId.toString();
+		ResponseEntity<Flow[]> response = restTemplate.exchange(serviceRootUrl + pathVariable, HttpMethod.GET, HttpEntityCreator.createHeaders(), Flow[].class);
 		return Arrays.asList(response.getBody());
 	}
 
 	public List<CustomMeasure> getAllCustomMeasuresById(UUID componentId) {
-		String pathVariable = "/v1/measure/" + componentId.toString();
-		ResponseEntity<CustomMeasure[]> response = restTemplate.exchange(serviceRootUrl + pathVariable, HttpMethod.GET, createHeaders(),
+		String pathVariable = ComponentPathConstants.CUSTOM_MEASURE_PATH + componentId.toString();
+		ResponseEntity<CustomMeasure[]> response = restTemplate.exchange(serviceRootUrl + pathVariable, HttpMethod.GET, HttpEntityCreator.createHeaders(),
 				CustomMeasure[].class);
 		return Arrays.asList(response.getBody());
-	}
-
-	private HttpEntity<String> createHeaders() {
-		HttpHeaders headers = new HttpHeaders();
-		headers.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
-		return new HttpEntity<>(headers);
 	}
 
 }

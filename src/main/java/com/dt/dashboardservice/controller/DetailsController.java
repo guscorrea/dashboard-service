@@ -67,7 +67,6 @@ public class DetailsController {
 
 	@PostMapping("/add-component")
 	public String updateWell(@ModelAttribute ComponentRequest componentRequest, @RequestParam UUID wellId, RedirectAttributes redirectAttributes) {
-		//TODO handle this request
 		redirectAttributes.addAttribute("wellId", wellId);
 		componentClient.addComponent(wellId, componentRequest);
 		return "redirect:/details";

@@ -34,7 +34,6 @@ public class PdgController {
 
 	@PostMapping("/save-pdg")
 	public String savePdg(@ModelAttribute PdgRequest pdgRequest, @RequestParam UUID tubingId, RedirectAttributes redirectAttributes) {
-		//TODO handle this request
 		redirectAttributes.addAttribute("tubingId", tubingId);
 		pdgClient.postPdg(pdgRequest, tubingId);
 		return "redirect:/tubing-details";
@@ -52,7 +51,6 @@ public class PdgController {
 	@PostMapping("/update-pdg")
 	public String updatePdg(@ModelAttribute PdgRequest pdgRequest, @RequestParam UUID pdgId, @RequestParam UUID tubingId,
 			RedirectAttributes redirectAttributes) {
-		//TODO handle this request
 		redirectAttributes.addAttribute("tubingId", tubingId);
 		pdgClient.putPdg(pdgRequest, pdgId);
 		return "redirect:/tubing-details";

@@ -38,7 +38,6 @@ public class TubingController {
 
 	@PostMapping("/save-tubing")
 	public String saveTubing(@ModelAttribute TubingRequest tubingRequest) {
-		//TODO handle this request
 		tubingClient.postTubing(tubingRequest);
 		return "redirect:/";
 	}
@@ -53,7 +52,6 @@ public class TubingController {
 
 	@PostMapping("/update-tubing")
 	public String updateTubing(@ModelAttribute TubingRequest tubingRequest, @RequestParam UUID tubingId) {
-		//TODO handle this request
 		tubingClient.putTubing(tubingRequest, tubingId);
 		return "redirect:/";
 	}

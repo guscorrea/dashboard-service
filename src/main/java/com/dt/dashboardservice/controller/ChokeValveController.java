@@ -32,7 +32,6 @@ public class ChokeValveController {
 
 	@PostMapping("/save-choke")
 	public String saveChokeValve(@ModelAttribute ChokeValveRequest chokeValveRequest) {
-		//TODO handle this request
 		chokeValveClient.postChokeValve(chokeValveRequest);
 		return "redirect:/";
 	}
@@ -47,7 +46,6 @@ public class ChokeValveController {
 
 	@PostMapping("/update-choke-valve")
 	public String updateChokeValve(@ModelAttribute ChokeValveRequest chokeValveRequest, @RequestParam UUID chokeValveId) {
-		//TODO handle this request
 		chokeValveClient.putChokeValve(chokeValveRequest, chokeValveId);
 		return "redirect:/";
 	}

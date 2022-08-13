@@ -3,10 +3,10 @@ package com.dt.dashboardservice.client;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import com.dt.dashboardservice.constants.ComponentPathConstants;
 import com.dt.dashboardservice.model.well.ComponentRequest;
 import com.dt.dashboardservice.model.well.Well;
 import lombok.extern.slf4j.Slf4j;
@@ -26,14 +26,13 @@ public class ComponentClient {
 
 	public void addComponent(UUID wellId, ComponentRequest componentRequest) {
 		log.info("Sending a add-component request for well with id: {}. Component id: {}", wellId, componentRequest.getComponentId());
-		String path = "/v1/add-component/%s";
-		restTemplate.postForEntity(serviceRootUrl + String.format(path, wellId.toString()), componentRequest, Well.class);
+		restTemplate.postForEntity(serviceRootUrl + String.format(ComponentPathConstants.ADD_COMPONENT_PATH, wellId.toString()), componentRequest,
+				Well.class);
 	}
 
 	public void removeComponent(UUID wellId, UUID componentId) {
 		log.info("Sending a remove-component request for well with id: {}. Component id: {}", wellId, componentId);
-		String path = "/v1/remove-component/well/%s/component/%s";
-		restTemplate.delete(serviceRootUrl + String.format(path, wellId.toString(), componentId.toString()));
+		restTemplate.delete(serviceRootUrl + String.format(ComponentPathConstants.REMOVE_COMPONENT_PATH, wellId.toString(), componentId.toString()));
 	}
 
 }
